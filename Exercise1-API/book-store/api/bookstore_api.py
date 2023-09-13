@@ -1,9 +1,14 @@
 from flask import Flask, request, jsonify, make_response
+from pydantic import ValidationError
+from schemas.bookstore_models import CreateBookRequest
 
 app = Flask(__name__)
 
 # In-memory database
 books = []
+
+# Utility function to find a book by ID
+
 
 def find_book(book_id):
     return next((book for book in books if book['book_id'] == book_id), None)
@@ -11,25 +16,27 @@ def find_book(book_id):
 
 @app.route('/books', methods=['POST'])
 def create_book():
-    data = request.get_json()
+    try:
+        data = request.get_json()
+        required_fields = ['title', 'author', 'published_date', 'isbn', 'price']
+        if not all(field in data for field in required_fields):
+            return make_response(
+                jsonify({'error': 'Missing required fields'}), 400)
+        CreateBookRequest.model_validate(data)
+        new_book = {
+            'book_id': str(len(books) + 1),
+            'title': data['title'],
+            'author': data['author'],
+            'published_date': data['published_date'],
+            'isbn': data['isbn'],
+            'price': data['price']
+        }
 
-    required_fields = ['title', 'author', 'published_date', 'isbn', 'price']
-    if not all(field in data for field in required_fields):
+        books.append(new_book)
+        return make_response(jsonify(new_book), 201)
+    except ValidationError as e:
         return make_response(
-            jsonify({'error': 'Missing required fields'}), 400)
-
-    new_book = {
-        'book_id': str(len(books) + 1),
-        'title': data['title'],
-        'author': data['author'],
-        'published_date': data['published_date'],
-        'isbn': data['isbn'],
-        'price': data['price']
-    }
-
-    books.append(new_book)
-    return make_response(jsonify(new_book), 201)
-
+            jsonify({'error': f'Data format is wrong: {e.errors()}'}), 400)
 
 @app.route('/books', methods=['GET'])
 def get_books():
