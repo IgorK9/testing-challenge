@@ -1,7 +1,7 @@
 from pydantic import BaseModel, field_validator, constr, confloat
 import re
 
-class CreateBookRequest(BaseModel):
+class Book(BaseModel):
     title: constr(min_length=1, max_length=300)
     author: constr(min_length=1, max_length=100)
     published_date: str

@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, make_response
 from pydantic import ValidationError
-from schemas.bookstore_models import CreateBookRequest
+from models.bookstore_models import Book
 
 app = Flask(__name__)
 
@@ -22,7 +22,7 @@ def create_book():
         if not all(field in data for field in required_fields):
             return make_response(
                 jsonify({'error': 'Missing required fields'}), 400)
-        CreateBookRequest.model_validate(data)
+        Book.model_validate(data)
         new_book = {
             'book_id': str(len(books) + 1),
             'title': data['title'],

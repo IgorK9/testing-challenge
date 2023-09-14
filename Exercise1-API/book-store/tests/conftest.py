@@ -24,7 +24,7 @@ def books_database():
     yield books
     books.clear()
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="function")
 def book():
     """
     Return a book
@@ -38,7 +38,7 @@ def book():
     }
     yield book
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="function")
 def book_modified():
     """
     Return a book
@@ -52,7 +52,7 @@ def book_modified():
     }
     yield book
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="function")
 def book_missing_data():
     """
     Return a book
@@ -63,7 +63,7 @@ def book_missing_data():
     }
     yield book
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="function")
 def book_wrong_data_format():
     """
     Return a book

@@ -20,4 +20,29 @@ Your API will start running at **`http://127.0.0.1:5000/`**.
 
 ## Run Tests
 
-TO DO by candidate
+Tests are located in book-store/tests
+
+Tests are organized in the following way:
+Functional tests and boundary tests: book-store/tests/functional
+Unit tests: book-store/tests/unit
+Data driven tests: book-store/tests/data_driven
+
+To run tests make sure you created a venv under the project directory (book-store)
+
+Install necessary requirements
+```bash
+pip install -r requirements.txt
+
+```
+
+Run pytest
+```bash
+pytest
+
+```
+
+To run certain type of tests separetely you specify the file containing tests
+```bash
+pytest tests/data_driven/test_data_driven.py
+
+```

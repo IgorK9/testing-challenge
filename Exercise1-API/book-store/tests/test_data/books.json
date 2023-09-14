@@ -1,0 +1,37 @@
+[
+  {
+    "data": {
+      "title": "Test book 1",
+      "author": "Bob Black",
+      "published_date": "2023-01-02",
+      "isbn": "1234567890143",
+      "price": 0.99
+    },
+    "expected": {
+      "code": 201
+    }
+  },
+  {
+    "data": {
+      "title": "Test book 2",
+      "author": "",
+      "published_date": "2023-01-02",
+      "isbn": "1234567890143",
+      "price": 11.00
+    },
+    "expected": {
+      "code": 400
+    }
+  },
+  {
+    "data": {
+      "title": "Test book 2",
+      "published_date": "2023-01-02",
+      "isbn": "1234567890143",
+      "price": 0.99
+    },
+    "expected": {
+      "code": 400
+    }
+  }
+]
