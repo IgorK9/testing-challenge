@@ -1,3 +1,4 @@
+import tests.support.error_messages as errMsgs
 
 def test_get_books_database_empty(client):
     """
@@ -46,7 +47,7 @@ def test_create_book_missing_data(client, book_missing_data, books_database):
     """
     response = client.post('/books', json=book_missing_data)
     assert response.status_code == 400
-    assert response.get_json()['error'] == 'Missing required fields'
+    assert response.get_json()['error'] == errMsgs.ApiErrors.missingRequiredFields
     assert len(books_database) == 0
 
 def test_create_book_wrong_data_format(client, book_wrong_data_format, books_database):
@@ -58,7 +59,7 @@ def test_create_book_wrong_data_format(client, book_wrong_data_format, books_dat
     """
     response = client.post('/books', json=book_wrong_data_format)
     assert response.status_code == 400
-    assert 'Data format is wrong:' in response.get_json()['error']
+    assert errMsgs.ApiErrors.wrongDataFormat in response.get_json()['error']
     assert len(books_database) == 0
 
 def test_create_book_author_below_min_charachters(client, book, books_database):
@@ -71,7 +72,7 @@ def test_create_book_author_below_min_charachters(client, book, books_database):
     book['author'] = ''
     response = client.post('/books', json=book)
     assert response.status_code == 400
-    assert 'Data format is wrong:' in response.get_json()['error']
+    assert errMsgs.ApiErrors.wrongDataFormat in response.get_json()['error']
     assert len(books_database) == 0
 
 def test_create_book_author_exceeding_max_charachters(client, book, books_database):
@@ -84,7 +85,7 @@ def test_create_book_author_exceeding_max_charachters(client, book, books_databa
     book['author'] = 'a'*110
     response = client.post('/books', json=book)
     assert response.status_code == 400
-    assert 'Data format is wrong:' in response.get_json()['error']
+    assert errMsgs.ApiErrors.wrongDataFormat in response.get_json()['error']
     assert len(books_database) == 0
 
 def test_get_books_get_single_book(client, book, books_database):
@@ -111,7 +112,7 @@ def test_get_books_get_single_book_no_book_found(client):
     id = 1
     response = client.get(f'/books/{id}')
     assert response.status_code == 404
-    assert response.get_json()['error'] == 'Book not found'
+    assert response.get_json()['error'] == errMsgs.ApiErrors.bookNotFound
 
 def test_update_book(client, book, book_modified, books_database):
     """
@@ -140,7 +141,7 @@ def test_update_book_no_book_found(client, book, book_modified, books_database):
     books_database.append(book)
     response = client.put(f'/books/{id}', json=book_modified)
     assert response.status_code == 404
-    assert response.get_json()['error'] == 'Book not found'
+    assert response.get_json()['error'] == errMsgs.ApiErrors.bookNotFound
 
 def test_delete_book(client, book, books_database):
     """

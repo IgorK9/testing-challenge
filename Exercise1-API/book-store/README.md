@@ -24,8 +24,11 @@ Tests are located in book-store/tests
 
 Tests are organized in the following way:
 Functional tests and boundary tests: book-store/tests/functional
-Unit tests: book-store/tests/unit
+Unit tests (models testing from book-store/models): book-store/tests/unit
 Data driven tests: book-store/tests/data_driven
+Test data (e.g. for data driven tests): book-store/tests/test_data
+Support/helpers (e.g. test error messages enums): book-store/tests/support
+
 
 To run tests make sure you created a venv under the project directory (book-store)
 

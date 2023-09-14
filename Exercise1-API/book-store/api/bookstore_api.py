@@ -37,6 +37,7 @@ def create_book():
     except ValidationError as e:
         return make_response(
             jsonify({'error': f'Data format is wrong: {e.errors()}'}), 400)
+    #TODO proper validation error handling
 
 @app.route('/books', methods=['GET'])
 def get_books():

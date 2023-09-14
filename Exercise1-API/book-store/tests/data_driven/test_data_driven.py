@@ -1,8 +1,9 @@
 import json
 import pytest
 from os import path
+from typing import List
 
-def read_data_from_json(file):
+def read_data_from_json(file: str) -> List[tuple]:
     file_path = path.relpath(file)
     with open(file_path) as f:
         data = json.load(f)
